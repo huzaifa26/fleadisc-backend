@@ -20,7 +20,7 @@ import functions from "firebase-functions"
 
 const app = express()
 const server = http.createServer(app);
-export const io = new Server(server, { cors: { origin: '*' } });
+export const io = new Server(server, { cors: { origin:  ['https://fleadisc.netlify.app','https://fleadisc.com']} });
 
 export let onlineUsers = []
 
