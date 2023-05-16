@@ -7,7 +7,7 @@ import http from "http"
 import mongoose from "mongoose"
 import cron from 'node-cron'
 import { Server } from 'socket.io'
-import { corsOptions } from './config/corsOptions.js'
+// import { corsOptions } from './config/corsOptions.js'
 import { checkDiscTime } from './controllers/discController.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import chatRoutes from './routes/chatRoutes.js'
@@ -17,6 +17,8 @@ import token from './routes/tokenRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 
 import functions from "firebase-functions"
+
+const allowedOrigins = ['http://localhost:5173', 'https://fleadisc.netlify.app', 'https://fleadisc.com'];
 
 const app = express()
 const server = http.createServer(app);
@@ -59,7 +61,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(cookieParser())
-app.use(cors(corsOptions))
+
+// app.use(cors(corsOptions))
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.indexOf(origin) === -1) {
+            let msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+
+        // Set the Access-Control-Allow-Origin header to the origin value
+        return callback(null, { origin: true });
+    },
+    exposedHeaders: ['Access-Control-Allow-Origin'] // Add this line to expose the header
+}));
+
 
 app.use('/user', userRoutes)
 app.use('/token', token)
