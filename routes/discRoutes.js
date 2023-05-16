@@ -8,7 +8,7 @@ router.delete('/delete/:discId', deleteDisc);
 router.post('/cancel/:discId', cancelDisc);
 router.post('/edit/:discId', editDisc);
 router.post('/relist/:discId', reListDisc);
-router.get('/', getAllDiscsWithSellers);
+router.get('/allUsersDiscs', getAllDiscsWithSellers);
 router.post('/bid', postBid);
 router.post('/buy', buyDisc);
 router.get('/buying/:userId', buyingDiscs);
