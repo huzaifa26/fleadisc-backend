@@ -4,7 +4,9 @@ const whitelist = [
     'http://localhost:3500',
     'http://localhost:5173',
     'http://192.168.43.73:5173',
-    'http://192.168.43.73:5173/signup'
+    'http://192.168.43.73:5173/signup',
+    'https://fleadisc.netlify.app',
+    'https://fleadisc.com'
 ];
 
 export const corsOptions = {
