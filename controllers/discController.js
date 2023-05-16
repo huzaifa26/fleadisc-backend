@@ -58,7 +58,6 @@ export const postBid = tryCatch(async (req, res) => {
 });
 
 export const getAllDiscsWithSellers = tryCatch(async (req, res) => {
-    const requestedCurrency = req.query.userCurrency;
     const discs = await Disc.find({ isActive: true })
         .populate('seller')
         .populate('bids.user')
