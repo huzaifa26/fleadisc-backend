@@ -6,6 +6,10 @@ const whitelist = [
     'http://192.168.43.73:5173',
     'http://192.168.43.73:5173/signup',
     'https://fleadisc.netlify.app',
+    'https://fleadisc.netlify.app/disc',
+    'https://fleadisc.netlify.app/user',
+    'https://fleadisc.netlify.app/chat',
+    'https://fleadisc.netlify.app/delivery',
     'https://fleadisc.com'
 ];
 
