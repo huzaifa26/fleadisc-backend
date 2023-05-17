@@ -10,28 +10,21 @@ import { Option } from '../models/options.js';
 
 export const postDisc = tryCatch(async (req, res) => {
     const { seller, pictureURL, quantity, discName, brand, range, condition, plastic, grams, named, dyed, blank, glow, collectible, firstRun, priceType, startingPrice, minPrice, endDay, endTime, brandShouldAdd } = req.body;
-    console.log(' i am inside post');
     // Fetch all options from the database
     let optionsFromDB = await Option.find();
-    console.log('options came');
-
     // Get the values of all options from the database
     const existingOptions = optionsFromDB.map(option => option.value.toLowerCase().trim());
-
-    console.log(brandShouldAdd);
 
     // Check if the brand option from the request is not in the existing options array
     if (!existingOptions.includes(brand.toLowerCase().trim()) && brandShouldAdd === true) {
         const newBrandOption = await Option.create({ value: brand, label: brand });
         optionsFromDB.push(newBrandOption);
-        console.log('i ran');
     }
 
     const disc = await Disc.create({ seller, pictureURL, quantity, discName, brand, range, condition, plastic, grams, named, dyed, blank, glow, collectible, firstRun, priceType, startingPrice, minPrice, endDay, endTime });
 
     io.emit('bid_added');
     res.status(201).json({ message: 'Disc created successfully', disc });
-    console.log('response is gonna sent');
 });
 
 export const getBrand = tryCatch(async (req, res) => {
@@ -68,7 +61,7 @@ export const getAllDiscsWithSellers = tryCatch(async (req, res) => {
     }
 
     const discsGroupedBySeller = groupBy(discs, (disc) =>
-        disc.seller._id.toString()
+        disc.seller.toString()
     );
 
     const result = await Promise.all(Object.keys(discsGroupedBySeller).map(async (userId) => {
@@ -462,14 +455,12 @@ export const editDisc = tryCatch(async (req, res) => {
 
     // Fetch all options from the database
     const optionsFromDB = await Option.find();
-    console.log(optionsFromDB);
 
     const existingOptions = optionsFromDB.map(option => option.value.toLowerCase().trim());
 
     // Check if the brand option from the request is not in the existing options array
     if (!existingOptions.includes(brand.toLowerCase().trim())) {
         // Add the brand option to the database
-        console.log(brand);
         const newBrandOption = await Option.create({ value: brand, label: brand });
         optionsFromDB.push(newBrandOption);
     }
