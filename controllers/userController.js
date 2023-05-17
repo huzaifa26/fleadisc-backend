@@ -223,6 +223,7 @@ export const editUser = tryCatch(async (req, res) => {
     // // Update the user document with the new form data
     user.name = updates.name
     user.country = updates.country
+    user.city = updates.city
     user.deliveryAddress.line1 = updates.deliveryAddressLine1
     user.deliveryAddress.line2 = updates.deliveryAddressLine2
     user.deliveryAddress.postalCode = updates.deliveryPostalCode
