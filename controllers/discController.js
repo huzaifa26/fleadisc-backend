@@ -10,7 +10,7 @@ import { Option } from '../models/options.js';
 
 export const postDisc = tryCatch(async (req, res) => {
     const { seller, pictureURL, quantity, discName, brand, range, condition, plastic, grams, named, dyed, blank, glow, collectible, firstRun, priceType, startingPrice, minPrice, endDay, endTime, brandShouldAdd } = req.body;
-
+    console.log(' i am inside post');
     // Fetch all options from the database
     let optionsFromDB = await Option.find();
     console.log('options came');

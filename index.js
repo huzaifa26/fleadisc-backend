@@ -22,7 +22,7 @@ const allowedOrigins = ['http://localhost:5173', 'https://fleadisc.netlify.app',
 
 const app = express()
 const server = http.createServer(app);
-export const io = new Server(server, { cors: { origin:  ['https://fleadisc.netlify.app','https://fleadisc.com']} });
+export const io = new Server(server, { cors: { origin: ['http://localhost:5173', 'https://fleadisc.netlify.app', 'https://fleadisc.com'] } });
 
 export let onlineUsers = []
 
@@ -90,19 +90,26 @@ cron.schedule('*/30 * * * * *', () => {
     checkDiscTime()
 });
 
-const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 5000
 
 mongoose.connect(process.env.MONGODB_URL2, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Database Connected');
-        app.listen(PORT, () => { console.log(`Server started on port ${PORT}`); })
+        // app.listen(PORT, () => { console.log(`Server started on port ${PORT}`); })
     })
     .catch((e) => {
         console.log(e.code, '=>', e.message);
     })
 
-server.listen(5001, () => {
-    console.log(`Server listening on port ${5001}`);
+// server.listen(5001, () => {
+//     console.log(`Server listening on port ${5001}`);
+// });
+
+app.set('port', process.env.PORT || 5000);
+
+server.listen(app.get('port'), function () {
+    var port = server.address().port;
+    console.log('Running on : ', port);
 });
 
 app.use(errorHandler)
